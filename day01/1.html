@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tian{
+            background-color: #ccc;
+            margin-left: 10px;
+            border-radius: 3px;
+        } 
+        .inp{
+            width: 300px;
+            border-radius: 3px;
+        }
+        .del{
+            border-radius: 3px;
+            background-color: #ccc;
+        
+        }
+        li{
+            display: flex;
+            flex-direction: row;
+            /* justify-content: space-between; */
+        }
+        .text{
+            margin-right: 50px;
+        }
+        img{
+            width: 100px;
+            margin: 20px;
+        }
+        .img{
+            margin: 20px 300px;
+            width: 400px;
+            height: 500px;
+            background-color: aliceblue;
+            border-radius: 20px;
+            margin-left: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="img">
+        <img src="./img/c01564899151f5018f492591ed8a2e7.png" alt="">
+        <img src="./img/c44c49996195ccb56cff5e5f9172d15.png" alt="">
+        <input type="text" value="" class="inp" placeholder="请输入搜索的内容"><button class="tian">添加</button>
+        <ul class="ul">
+        </ul>
+        <ul class="ul2">
+        </ul>
+    </div>
+</body>
+<script>
+    // 获取元素
+    var inp = document.querySelector('.inp')
+    var tian = document.querySelector('.tian')
+    var ul = document.querySelector('.ul')
+    var ul2 = document.querySelector('.ul2')
+    // 获取本地存储的数据 
+    var list = JSON.parse(localStorage.getItem('sb')) || []
+    xr()
+    // 按钮点击事件
+    tian.onclick = function () {
+        add()
+    }
+    // 回车事件
+    inp.onkeydown = function (e) {
+        console.log(e)
+        if (e.keyCode == 13) {
+            add()
+        }
+    }
+    // 渲染页面的方法
+    function xr() {
+        // 清空原来的
+        ul.innerText = ''
+        // 添加新的
+        for (var i = 0; i < list.length; i++) {
+            // 判断当前的选项是否是完成的
+            if (list[i].flag == false) {
+                // 创建标签
+                let li = document.createElement('li')
+                // console.log(li)
+                // 添加内容
+                li.innerHTML = `  <input type="checkbox"><p class="text">${list[i].title}<button index=${i} class="del">删除</button></p>`
+                // 插入到页面
+                ul.appendChild(li)
+            } else {
+                let li = document.createElement('li')
+                // console.log(li)
+                li.innerHTML = `  <input type="checkbox" checked><p>${list[i].title}<button index=${i} class="del">删除</button></p>`
+                ul2.appendChild(li)
+            }
+        }
+    } 
+// 添加
+    function add() {
+        // console.log(inp.value)
+        // 创建当前项
+        let obj = { flag: false, title: inp.value }
+        // 加到数组里
+        list.push(obj)
+        // console.log(list);
+        // 存到本地
+        localStorage.setItem('sb', JSON.stringify(list))
+        // 渲染页面
+        xr()
+    }
+    // 删除（因为button是添加上的所以直接获取不到，所以需要事件委托）
+    ul.addEventListener('click', function (e) {
+        // console.log(e.target.nodeName)
+        // 判断当前的点击节点是否是button
+        if (e.target.nodeName == "BUTTON") {
+            // console.log(e.target.getAttribute('index'));
+            // 删除当前点击项
+            list.splice(e.target.getAttribute('index'), 1)
+        //   存本地
+            localStorage.setItem('sb', JSON.stringify(list))
+            // 渲染页面
+            xr()
+        }
+    })
+</script>
+
+</html>
