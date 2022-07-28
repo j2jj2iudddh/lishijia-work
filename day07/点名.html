@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .a{
+            background-color: aqua;
+        }
+        li{
+            background-color: antiquewhite;
+            width: 100px;
+            height: 50px;
+            list-style: none;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>小丸子</li>
+        <li>奶茶</li>
+        <li>面</li>
+        <li>蛋炒饭</li>
+        <li>包子</li>
+        <li>混沌</li>
+        <li>土豆饼</li>
+        <li>麻辣烫</li>
+        <li>螺吸hun</li>
+        <li>酸菜鱼</li>
+    </ul>
+    <button class="dian">点击</button>
+    <button class="dian2">2点击</button>
+</body>
+</html>
+<script>
+    function sj(min,max){
+        return Math.floor(Math.random()*(max-min+1))+min
+    }
+    var dian=document.querySelector('.dian')
+    var dian2=document.querySelector('.dian2')
+    var li=document.querySelectorAll('li')
+    var a=document.querySelectorAll('.a')
+    var b=document.querySelector('.b')
+
+    var timer
+    dian.onclick=function(){
+        for(var i=0;i<li.length;i++){
+            li[i].className=''
+        }
+        timer = setTimeout(()=>{
+            var shu=sj(1,10)
+            li[shu].className='a'
+        },300)
+    }
+
+    dian2.onclick=function(){
+        for(var i=0;i<li.length;i++){
+            li[i].className=''
+        }
+        timer=setTimeout(()=>{
+            var shu1=[sj(1,10),sj(1,10)]
+            li[shu1[0]].className='a'
+            li[shu1[1]].className='a'
+        })
+    }
+</script>
